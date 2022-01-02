@@ -1,0 +1,4 @@
+exchange-rate:
+  access_key: e093e15179389fe2c1fb713fbf1ea036
+  currencies: KRW,JPY,PHP
+  format: 1

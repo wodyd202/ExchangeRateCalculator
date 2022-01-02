@@ -13,16 +13,11 @@ public class ExchangeRateResponse {
     private Quotes quotes;
 
     @Getter
+    @AllArgsConstructor
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class Quotes {
         private double USDKRW;
         private double USDJPY;
         private double USDPHP;
-
-        public Quotes(double USDKRW, double USDJPY, double USDPHP) {
-            this.USDKRW = USDKRW;
-            this.USDJPY = USDJPY;
-            this.USDPHP = USDPHP;
-        }
     }
 }
