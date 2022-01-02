@@ -14,6 +14,5 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ExchangeRateRequestProperties {
     private String access_key;
-    private String currencies;
     private int format;
 }
