@@ -3,12 +3,14 @@ package com.exchangeratecalculator;
 import com.exchangeratecalculator.config.exchangerateAPI.ExchangeRateRequestProperties;
 import com.exchangeratecalculator.service.application.ExchangeRateRequester;
 import com.exchangeratecalculator.service.domain.ExchangeRate;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Profile("test")
 public class StubExchangeRequester implements ExchangeRateRequester {
     @Override
     public ExchangeRate getExchangeRate(ExchangeRateRequestProperties properties, String currencies) {
