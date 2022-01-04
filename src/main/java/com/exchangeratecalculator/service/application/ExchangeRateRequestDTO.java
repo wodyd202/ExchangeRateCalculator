@@ -10,8 +10,4 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ExchangeRateRequestDTO {
     private String currencies;
-
-    public static ExchangeRateRequestDTO getInstance() {
-        return new ExchangeRateRequestDTO("");
-    }
 }

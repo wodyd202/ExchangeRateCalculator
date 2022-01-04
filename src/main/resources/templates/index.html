@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>환율 계산</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>환율 계산</h1>
+    <br>
+    송금국가: 미국(USD)</br>
+    수취국가: <select id="currencieSelect">
+        <option value="KRW">한국(KRW)</option>
+        <option value="JPY">일본(JPY)</option>
+        <option value="PHP">필리핀(PHP)</option>
+    </select></br>
+    환율: <span id="exchangeRateSpan"></span></br>
+    송금액: <input type="number" value="0" id="remittanceAmountInput"> USD</br><br>
+    <button id="submitBtn">Submit</button></br>
+    <br>
+    <span id="resultSpan"></span>
+    <script>
+        let exchangeRate = {};
+        let currentExchangeRate;
+        const CURRENCIES = "KRW, JPY, PHP";
+
+        $("#currencieSelect").change(()=>{
+            changeExchangeRate("USD" + $("#currencieSelect").val());
+        })
+
+        $("#submitBtn").click(()=>{
+            if($("#remittanceAmountInput").val() === ''){
+                alert('송금액을 입력해주세요.');
+                return;
+            }
+            const remittanceAmount = parseInt($("#remittanceAmountInput").val());
+            if(remittanceAmount < 0){
+                alert("송금액은 0원 이상 입력해주세요.");
+                return;
+            }
+            if(remittanceAmount > 10_000){
+                alert("송금액은 10,000원 이하로 입력해주세요.");
+                return;
+            }
+            $("#resultSpan").text("수취금액은 " + numberWithCommas(currentExchangeRate * remittanceAmount) + " " + $("#currencieSelect").val() + "입니다.");
+        })
+
+        getExchangeRateData(CURRENCIES);
+
+        function getExchangeRateData(CURRENCIES) {
+            $.ajax({
+                url: "./api/exchange-rate",
+                data: {
+                    currencies: CURRENCIES
+                },
+                success: function (data) {
+                    exchangeRate = data['quotes'];
+                    changeExchangeRate("USDKRW");
+                },
+                error: function (data) {
+                }
+            })
+        }
+
+        function changeExchangeRate(type){
+            for(let key in exchangeRate){
+                if(key === type){
+                    $("#exchangeRateSpan").text(numberWithCommas(exchangeRate[key].toFixed(2)) + " " + $("#currencieSelect").val()+"/USD");
+                    currentExchangeRate = exchangeRate[key].toFixed(2);
+                    break;
+                }
+            }
+        }
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+    </script>
+</body>
+</html>
