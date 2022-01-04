@@ -1,6 +1,7 @@
 package com.exchangeratecalculator.service.domain;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Error {
     private int code;
+
+    @Builder
+    public Error(int code) {
+        this.code = code;
+    }
 
     public boolean is202Error() {
         return code == 202;

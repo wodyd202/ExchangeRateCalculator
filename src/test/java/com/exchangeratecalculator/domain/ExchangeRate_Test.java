@@ -1,5 +1,6 @@
 package com.exchangeratecalculator.domain;
 
+import com.exchangeratecalculator.service.domain.Error;
 import com.exchangeratecalculator.service.domain.ExchangeRate;
 import com.exchangeratecalculator.service.domain.FaildExchangeRateRequestException;
 import org.junit.jupiter.api.DisplayName;
@@ -18,6 +19,9 @@ public class ExchangeRate_Test {
         // given
         ExchangeRate exchangeRate = ExchangeRate.builder()
                 .success(false)
+                .error(Error.builder()
+                        .code(101)
+                        .build())
                 .build();
 
         // when
