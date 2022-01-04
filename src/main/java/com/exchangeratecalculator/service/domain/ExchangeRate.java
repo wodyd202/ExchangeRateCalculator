@@ -19,13 +19,14 @@ public class ExchangeRate {
     private Error error;
 
     @Builder
-    public ExchangeRate(boolean success, String terms, String privacy, long timestamp, String source, Map<String,Double> quotes) {
+    public ExchangeRate(boolean success, String terms, String privacy, long timestamp, String source, Map<String,Double> quotes, Error error) {
         this.success = success;
         this.terms = terms;
         this.privacy = privacy;
         this.timestamp = timestamp;
         this.source = source;
         this.quotes = quotes;
+        this.error = error;
     }
 
     public void validation() {

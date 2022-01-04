@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import static org.junit.Assert.assertNotNull;
+
 @SpringBootTest
 @ActiveProfiles("dev")
 public class ExchangeRateRequester_Test {
@@ -19,8 +21,11 @@ public class ExchangeRateRequester_Test {
     @Test
     @DisplayName("환율정보 요청")
     void getExchangeRate(){
+        // when
         ExchangeRateRequestDTO exchangeRateRequestDTO = new ExchangeRateRequestDTO("KRW,JPY,PHP");
-        ExchangeRate o = exchangeRateRequester.getExchangeRate(exchangeRateRequesterDTO, exchangeRateRequestDTO.getCurrencies());
-        System.out.println(o);
+        ExchangeRate exchangeRate = exchangeRateRequester.getExchangeRate(exchangeRateRequesterDTO, exchangeRateRequestDTO.getCurrencies());
+
+        // then
+        assertNotNull(exchangeRate);
     }
 }
