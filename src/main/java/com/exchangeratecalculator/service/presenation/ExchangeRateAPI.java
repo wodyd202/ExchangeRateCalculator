@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 /**
  * 환율 정보 API
  */
@@ -20,6 +22,9 @@ public class ExchangeRateAPI {
 
     @GetMapping
     public ResponseEntity<ExchangeRate> getExchangeRate(ExchangeRateRequestDTO exchangeRateRequestDTO){
+        if(Objects.isNull(exchangeRateRequestDTO)){
+            exchangeRateRequestDTO = ExchangeRateRequestDTO.getInstance();
+        }
         ExchangeRate exchangeRate = exchangeRateService.getExchangeRate(exchangeRateRequestDTO);
         return ResponseEntity.ok(exchangeRate);
     }
