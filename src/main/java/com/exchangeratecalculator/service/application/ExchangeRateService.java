@@ -6,18 +6,16 @@ import com.exchangeratecalculator.service.domain.FaildExchangeRateRequestExcepti
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
-
-import java.net.UnknownHostException;
 
 /**
  * 환율 정보 서비스
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ExchangeRateService {
     private final ExchangeRateRequestProperties exchangeRateRequestProperties;
     private final ExchangeRateRequester exchangeRateRequester;
@@ -26,12 +24,13 @@ public class ExchangeRateService {
      * @param exchangeRateRequestDTO
      * # 환율 정보 조회
      */
-    @Retryable(maxAttempts = 2,
-               value = FaildExchangeRateRequestException.class,
+    @Retryable(maxAttempts = 3,
+               include = FaildExchangeRateRequestException.class,
                backoff = @Backoff(delay = 1000))
-    @Cacheable(value = "exchange-rate", key = "#exchangeRateRequestDTO.currencies")
     public ExchangeRate getExchangeRate(ExchangeRateRequestDTO exchangeRateRequestDTO) {
+        System.out.println(exchangeRateRequestDTO.getCurrencies());
         ExchangeRate exchangeRate = exchangeRateRequester.getExchangeRate(exchangeRateRequestProperties, exchangeRateRequestDTO.getCurrencies());
+        log.info("request exchange rate");
         exchangeRate.validation();
         return exchangeRate;
     }
