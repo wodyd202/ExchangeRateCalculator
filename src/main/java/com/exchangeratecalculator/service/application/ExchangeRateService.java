@@ -28,7 +28,6 @@ public class ExchangeRateService {
                include = FaildExchangeRateRequestException.class,
                backoff = @Backoff(delay = 1000))
     public ExchangeRate getExchangeRate(ExchangeRateRequestDTO exchangeRateRequestDTO) {
-        System.out.println(exchangeRateRequestDTO.getCurrencies());
         ExchangeRate exchangeRate = exchangeRateRequester.getExchangeRate(exchangeRateRequestProperties, exchangeRateRequestDTO.getCurrencies());
         log.info("request exchange rate");
         exchangeRate.validation();
